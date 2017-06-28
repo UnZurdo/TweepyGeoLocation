@@ -4,12 +4,13 @@ from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 
 #Enter Twitter API Key information
-consumer_key= 'l2EF8otpmNPXVQy8bXp7lSkZH'
-consumer_secret= 'v1Xr0dEYqLv9pVF985Cg9hf1WIfqOLszjz6npdRJMdimQ911pe'
-access_token='2723252692-LpDhLkKBUzx79283gDwA4Jg3uoGGz1ED2K5cIdY'
-access_secret='94qwUPMLK4rbynJaOZgxYQhK1i8LEiw7Po9arTBhhD9iO'
-
-file = open("Output2.csv", "w")
+consumer_key= ''
+consumer_secret= ''
+access_token=''
+access_secret=''
+# 2 different outputs, 1 with the tweet info, and another just with the coordenates
+file = open("Output3.csv", "w")
+file2 = open("coordenadas.csv", "w")
 
 data_list = []
 count=0
@@ -17,8 +18,8 @@ class listener(StreamListener):
 
     def on_data(self, data):
     	global count
-        #How many tweets you want to find, could change to time based
-        if count <= 10:
+        #How many tweets you want to find
+        if count <= 1000:
             json_data = json.loads(data)
 
             tweet = json_data["text"]
@@ -31,13 +32,17 @@ class listener(StreamListener):
  	           print
  	           lon = coords["coordinates"][0]
  	           lat = coords["coordinates"][1]
- 	           data_list.append(json_data)             
+ 	           data_list.append(json_data) 
+ 	           file2.write(str(lon) + ",")
+ 	           file2.write(str(lat) + ",  "+ "\n")            
  	           file.write(str(lon) + ",")
  	           file.write(str(lat) + ",  ")
- 	           file.write(str(username) + ",  ")
- 	           file.write(str(tweet) + "\n")
+ 	           file.write((username).encode('utf-8') + ",  ")
+ 	           file.write((tweet).encode('utf-8') + "\n")
 
- 	           count += 1	
+ 	           count += 1
+ 	           file.flush()	
+ 	           file2.flush()		
             return True
         else:
             file.close()
@@ -50,5 +55,5 @@ auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
 twitterStream = Stream(auth, listener())
 #What you want to search for here
-#twitterStream.filter(locations=[41.567414,-1.054222,41.707213,-0.760071])
+#Location of my city [41.567414,-1.054222,41.707213,-0.760071])
 twitterStream.filter(locations=[-1.054222,41.567414,-0.760071,41.707213])
