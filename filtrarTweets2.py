@@ -46,6 +46,7 @@ class listener(StreamListener):
             return True
         else:
             file.close()
+            file2.close()
             return False
 
     def on_error(self, status):
