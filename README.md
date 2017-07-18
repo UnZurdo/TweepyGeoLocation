@@ -1,7 +1,8 @@
-Capturing tweets with geolocation info using Tweepy API
+Capturing tweets with geolocation info using Tweepy API.
 
-Tweets stream started: 27/6/2017
-Tweets stream finished:10/7/2017
+Tweets stream started: 27/6/2017.
+
+Tweets stream finished:10/7/2017.
 
 
 
